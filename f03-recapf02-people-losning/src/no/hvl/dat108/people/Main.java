@@ -18,7 +18,7 @@ public class Main {
 				);
 
 		// 1: Sorter personene på etternavn.
-
+		people.sort((p1, p2) -> p1.lastName().compareTo(p2.lastName()));
 		
 		// 2: Skriv ut alle personene, én linje per person. 
 		// 		Lag en egen hjelpemetode printAll(...) som gjør dette.

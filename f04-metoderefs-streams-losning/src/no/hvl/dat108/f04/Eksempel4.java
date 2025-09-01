@@ -1,6 +1,8 @@
 package no.hvl.dat108.f04;
 import static no.hvl.dat108.f04.People.people;
 
+import java.util.function.Consumer;
+
 /*
  * Eksempel4
  * 
@@ -20,8 +22,14 @@ public class Eksempel4 {
 			}
 		}
 		
-		//Med streams:
+		Consumer<Person> cons = p -> System.out.println(p);
 		
+		//Med streams:
+		people.stream()
+					.filter(p -> p.firstName().startsWith("C"))
+					//.forEach(cons);
+					//.forEach(p -> System.out.println(p));
+					.forEach(System.out::println);
 	}
 }
 
