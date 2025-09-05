@@ -13,7 +13,10 @@ public class TelleNedTraad extends Thread {
 	@Override
 	public void run() {
 		for (int i=0; i<n; i++) {
-			teller.tellNed();
+			//synchronized(teller) {
+				teller.tellNed();
+			//}
+			
 		}
 	}
 }

@@ -4,11 +4,13 @@ public class Teller {
 
 	private int verdi = 0;
 
-	public void tellOpp() {
+	public synchronized void tellOpp() {
+		// Kritisk seksjon
 		verdi++;
 	}
 
-	public void tellNed() {
+	public synchronized void tellNed() {
+		// Kritisk seksjon
 		verdi--;
 	}
 

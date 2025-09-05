@@ -19,15 +19,24 @@ final int N = 100000;
 		
 		Teller teller = new Teller();
 		
-		Thread telleOppTraad = new TelleOppTraad(teller, N);
-		Thread telleNedTraad = new TelleNedTraad(teller, N);
+		//Thread telleOppTraad = new TelleOppTraad(teller, N);
+		for (int i=0; i<N; i++) {
+			//synchronized(teller) {
+				teller.tellOpp();
+			}
 		
-		telleOppTraad.start();
-		telleNedTraad.start();
+		//Thread telleNedTraad = new TelleNedTraad(teller, N);
+		for (int j=0; j<N; j++) {
+			//synchronized(teller) {
+			//	teller.tellNed();
+			}
+				
+		//telleOppTraad.start();
+		//telleNedTraad.start();
 		
 		//Vente til begge trådene er ferdige
-		telleOppTraad.join();
-		telleNedTraad.join();
+		//telleOppTraad.join();
+		//telleNedTraad.join();
 		
 		System.out.println("Ferdig! Tellerverdi = " + teller.getVerdi());
 
