@@ -1,5 +1,5 @@
 // Aktiver strict-mode
-// ???
+"use strict"; // Tryggere JS, plukker opp feildeklarerte variabler.
 
 //****************************
 // Pokémon creation
@@ -13,10 +13,8 @@ class Pokemon{
         this.defense = stats.defense;
         this.speed = stats.speed;
         // Legg til power stat
-        // ???
 
-        this.move1 = moves.move1;
-        this.move2 = moves.move2;
+        this.moves = moves;
     }
 
     isAlive(){
@@ -24,17 +22,22 @@ class Pokemon{
     }
 }
 
-const pikachu = new Pokemon("Pikachu", { hp: 40, attack: 12, defense: 12, speed: 14 }, {move1: "Tackle", move2: "Thunder"});
-const bulbasaur = new Pokemon("Bulbasaur", { hp: 60, attack: 9, defense: 16, speed: 10 }, {move1: "Vine Whipe", move2: "Solar Beam"});
+const pikachu = new Pokemon("Pikachu", 
+    { hp: 40, attack: 12, defense: 12, speed: 14 }, 
+    [{name: "Tackle", power: 1 }, { name: "Thunder", power: 2}, { name: "Thunderbolt", power: 2}]);
+const bulbasaur = new Pokemon("Bulbasaur", 
+    { hp: 60, attack: 9, defense: 16, speed: 10 },
+    [{name: "Vine Whipe", power: 1 }, { name: "Solar Beam", power: 2}]);
 
 //****************************
 // Functions
 //****************************
-function calculateDamage(attacker, defender){
-    // Legg til inflytelse fra power-stat
-    // ???
-    let base = Math.floor(attacker.attack) - Math.floor(defender.defense / 3);
-    return Math.max(1, base);
+function calculateDamage(attacker, defender, move){
+    // Legg til inflytelse fra power-stat og en grad av tilfeldighet.
+    let pokemonAttack = Math.floor((attacker.attack) + (move.power * Math.random() * 4));
+    let pokemonDefense = Math.floor(defender.defense / 3);
+
+    return Math.max(1, pokemonAttack - pokemonDefense);
 }
 
 function log(msg){
@@ -47,65 +50,75 @@ function renderHP(pokemon){
 }
 
 // Skriv en funksjon som utfører en runde av kampen.
-// ???
-
-// Skriv en funksjon som avslutter kampen.
-// ???
-
-// Skriv en funksjon som lager en knapp for hvert angrep spillerens pokémon har.
-// ???
-
-// Skriv en funksjon som setter i gang kampen.
-// ???
-
-//****************************
-// Battle loop
-//****************************
-let roundCounter = 1;
-
-while (pikachu.hp > 0 && bulbasaur.hp > 0){
-    log("Round " + roundCounter);
-    roundCounter += 1;
-
-    let pokemon1;
-    let pokemon2;
-    if (pikachu.speed > bulbasaur.speed){
-        pokemon1 = pikachu;
-        pokemon2 = bulbasaur;
-    }
-    else{
-        pokemon1 = bulbasaur;
-        pokemon2 = pikachu; 
-    }
-
-    // Refaktorer koden inn i en egen funksjon for å unngå repetering av kode.
-    let damage = calculateDamage(pokemon1, pokemon2);
+function performTurn(pokemon1, pokemon2, move){
+    let damage = calculateDamage(pokemon1, pokemon2, move);
     pokemon2.hp -= damage;
-    log(pokemon1.name + " used " + pokemon1.move1 + "!\n" +
+    
+    log(pokemon1.name + " used " + move.name + "!\n" +
     pokemon2.name + " took " + damage + " damage.\n")
+
     if (pokemon2.hp <= 0){
         log(pokemon2.name + " fainted!");
-        break;
+        return true;
     }
-    
-    damage = calculateDamage(pokemon2, pokemon1);
-    pokemon1.hp -= damage;
-    log(pokemon2.name + " used " + pokemon2.move1 + "!\n" +
-    pokemon1.name + " took " + damage + " damage.\n")
-    if (pokemon1.hp <= 0){
-        log(pokemon1.name + " fainted!");
-        break;
+    else{
+        return false;
     }
+}
 
+// Skriv en funksjon som avslutter kampen.
+function endBattle(){
+    log("Battle over!");
 
-    log(renderHP(pokemon1));
-    log(renderHP(pokemon2));
-    log("********\n\n")
+}
+
+// Skriv en funksjon som lager en knapp for hvert angrep spillerens pokémon har.
+function createMoveButtons(pokemon, onMoveChosen){
+    const container = document.getElementById("move-buttons");
+
+    pokemon.moves.forEach(move => {
+        let button = document.createElement("button");
+        button.textContent = move.name;
+        button.addEventListener("click", () => onMoveChosen(move));
+        container.appendChild(button);
+    });
+}
+
+// Skriv en funksjon som setter i gang kampen.
+function startBattle(playerPokemon, opponentPokemon){
+    document.getElementById("start-btn").disabled = true;
+    log(`Battle start: ${playerPokemon.name} vs ${opponentPokemon.name}`);
+    log(renderHP(playerPokemon));
+    log(renderHP(opponentPokemon));
+
+    createMoveButtons(playerPokemon, (chosenMove) => {
+        if(!playerPokemon.isAlive() || !opponentPokemon.isAlive()) return;
+
+        // Player turn
+        if(performTurn(playerPokemon, opponentPokemon, chosenMove)){
+            endBattle();
+            return;
+        }
+
+        // Opponent turn
+        let opponentMove = opponentPokemon.moves[Math.floor(Math.random() * opponentPokemon.moves.length)];
+        if(performTurn(opponentPokemon, playerPokemon, opponentMove)){
+            endBattle();
+            return;
+        }
+
+        log("--- Next round ---\n")
+    });
+}
 
 
 //****************************
 // Button handling
 //****************************
+document.getElementById("start-btn").addEventListener("click", () => {
+    //document.getElementById("move-")
+
+    startBattle(pikachu, bulbasaur);
+})
 
 // Legg bindinger til knappene.
-}
