@@ -1,0 +1,69 @@
+/* ====== Layout & Typography ====== */
+:root{
+--bg1:#eef2f7; --bg2:#ffffff; --ink:#222; --muted:#666;
+--accent:#3498db; --accent-d:#2c80b4;
+--hp-high:#2ecc71; --hp-mid:#f1c40f; --hp-low:#e74c3c;
+--log-bg:#111; --log-ink:#0f0; --panel:#fafbfe; --border:#d9e1ec;
+}
+*{box-sizing:border-box}
+body{
+margin:0; padding:24px; font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+color:var(--ink); background:linear-gradient(180deg,var(--bg1),var(--bg2));
+}
+h1{margin:0 0 12px}
+h2{margin:18px 0 8px}
+
+/* ====== Form ====== */
+.grid{
+display:grid; gap:8px; grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+align-items:end; margin-bottom:8px;
+}
+label{font-size:14px; color:var(--muted)}
+input[type="text"], input[type="number"]{
+width:100%; padding:8px 10px; border:1px solid var(--border); border-radius:8px; background:#fff;
+font-size:14px;
+}
+
+/* ====== Buttons ====== */
+.btn{
+appearance:none; border:0; border-radius:10px; padding:10px 14px; font-weight:600;
+background:var(--accent); color:#fff; cursor:pointer; transition:filter .2s, transform .02s;
+box-shadow:0 2px 10px rgba(52,152,219,.25);
+}
+.btn:hover{filter:brightness(1.05)}
+.btn:active{transform:translateY(1px)}
+.btn[disabled]{opacity:.55; cursor:not-allowed; box-shadow:none}
+
+/* ====== Battlefield ====== */
+.battle{
+display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0;
+}
+.panel{
+background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:14px;
+box-shadow:0 2px 10px rgba(0,0,0,.06);
+}
+.panel h3{margin:0 0 6px}
+.statline{font-size:13px; color:var(--muted); margin-bottom:6px}
+
+/* ====== HP Bar ====== */
+.hp-wrap{width:100%; height:18px; background:#e9edf5; border-radius:10px; overflow:hidden}
+.hp-bar{
+height:100%; width:100%; background:var(--hp-high); color:#fff; font-size:12px; line-height:18px;
+text-align:center; transition: width .25s ease;
+text-shadow:0 1px 2px rgba(0,0,0,.35);
+}
+
+/* ====== Move Buttons Row ====== */
+#move-buttons{display:flex; flex-wrap:wrap; gap:8px; margin:8px 0 6px}
+
+/* ====== Log ====== */
+#battle-log{
+background:var(--log-bg); color:var(--log-ink); font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+padding:12px; height:220px; overflow:auto; border-radius:12px; border:1px solid #000;
+white-space:pre-wrap;
+}
+
+/* ====== Helpers ====== */
+.row{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+.note{color:var(--muted); font-size:13px}
+hr{border:0; border-top:1px solid var(--border); margin:14px 0}
