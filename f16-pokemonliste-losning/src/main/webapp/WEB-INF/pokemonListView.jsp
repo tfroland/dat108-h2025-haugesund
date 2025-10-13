@@ -16,11 +16,11 @@
 			<th>Level</th>
 		</tr>
 		<!-- Fyll inn forEach-tag for å iterere gjennom listen av pokemoner -->
-		<tr>
-			<td align="left">???name</td>
-			<td align="left">???type</td>
-			<td>???level</td>
-		</tr>
+		<c:forEach var="p" items="${pokemonList}"><tr>
+			<td align="left">${p.name}</td>
+			<td align="left">${p.type}</td>
+			<td>${p.level}</td>
+		</tr></c:forEach>
 	</table>
 	
   </body>
