@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="simple.css">
+	<title>Søk på pokemon-type</title>
+</head>
+<body>
+	<h4>Søk etter pokemoner på type</h4>
+	<form action="somepokemon" method="get">
+			Search string <input type="text" name="type"><br>
+			
+			<!--Skal fikses-->
+			Sortering på tittel <input type="radio" name="sorting" value="paaTittel" checked>
+			, eller på utg.år <input type="radio" name="sorting" value="paaAar"><br>
+			
+			Type -  
+			Electric<input type="checkbox" name="type" value="Electric" checked>, 
+			Water<input type="checkbox" name="type" value="Water">,
+			Rock<input type="checkbox" name="type" value="Rock"><br>
+			
+			<p><input type="submit" value="Search!"></p>
+		</form>
+</body>
+</html>
