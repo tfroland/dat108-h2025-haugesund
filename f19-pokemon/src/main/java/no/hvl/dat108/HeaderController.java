@@ -1,0 +1,40 @@
+package no.hvl.dat108;
+
+import static no.hvl.dat108.Pokemons.allPokemons;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+@Controller
+public class HeaderController {
+
+	@GetMapping(value = "/headers", produces="text/plain")
+	@ResponseBody
+	public String headers(@RequestHeader Map<String, String> headers) {
+		return headers.entrySet().stream()
+				.map((Entry<String, String> e) -> String.format("Header '%s' = %s", e.getKey(), e.getValue()))
+				.collect(Collectors.joining("\n"));
+	}
+	
+	@GetMapping(value = "/host", produces = "text/plain")
+	@ResponseBody
+	public String host(@RequestHeader(HttpHeaders.HOST) String host) {
+		return "host = " + host;
+	}
+	
+	@GetMapping(value = "/language", produces = "text/plain")
+	@ResponseBody
+	public String language(@RequestHeader(HttpHeaders.ACCEPT_LANGUAGE) String language) {
+		return "accept-language = " + language;
+	}
+}
